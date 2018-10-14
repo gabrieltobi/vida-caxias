@@ -1,0 +1,17 @@
+.slick-slider {
+    $arrow-spacing: 25px;
+    height: 40vh;
+    .slide {
+        height: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    .slick-prev {
+        left: $arrow-spacing;
+        z-index: 1;
+    }
+    .slick-next {
+        right: $arrow-spacing;
+    }
+}
