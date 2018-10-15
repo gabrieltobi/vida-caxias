@@ -1,0 +1,19 @@
+.navbar {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    .phrase {
+        letter-spacing: 26px;
+        text-shadow: 3px 3px #000000;
+    }
+    .end {
+        position: relative;
+    }
+    .number-one {
+        @media (min-width: 768px) {
+            position: absolute;
+            right: 0;
+            margin-top: 60px;
+        }
+    }
+}
