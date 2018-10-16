@@ -1,0 +1,7 @@
+.modal-form {
+    $color-primary: #b15320;
+    display: block;
+    .modal-content {
+        border-top: 10px solid $color-primary;
+    }
+}

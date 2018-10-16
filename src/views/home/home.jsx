@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import Carousel from './carousel/carousel'
 import Video from './video/video'
 import Suggestions from './suggestions/suggestions'
+import Links from './links/links'
 import BiblicalClass from './biblicalClass/biblicalClass'
 
 class Home extends Component {
@@ -11,8 +12,9 @@ class Home extends Component {
         return (
             <div className='view-home'>
                 {/* <Carousel /> */}
-                {/* <Video /> */}
                 <Suggestions />
+                <Video />
+                <Links />
                 {/* <BiblicalClass /> */}
             </div>
         )
