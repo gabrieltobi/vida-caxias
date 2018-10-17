@@ -5,3 +5,5 @@ import Root from './root'
 ReactDOM.render(<Root />, document.getElementById('app'))
 
 module.hot.accept()
+
+export default Root

@@ -18,7 +18,9 @@ class Modal extends Component {
 
     state = {
         formWasValidated: false,
-        loading: false
+        loading: false,
+        success: false,
+        error: false
     }
 
     formRef = React.createRef()
@@ -63,29 +65,34 @@ class Modal extends Component {
                 name,
                 phone,
                 email
-            }
+            },
+            title,
+            closeModal
         } = this.props
 
         this.setState({ loading: true })
 
-        fetch('https://api.mailgun.net/v3/sandbox43aa68466a0e4cc695a0a9d7dc90040b.mailgun.org/messages', {
+        fetch('https://mzxsx1e07g.execute-api.us-east-1.amazonaws.com/default/mailsender', {
             method: 'POST',
+            body: JSON.stringify({
+                subject: title,
+                name,
+                phone,
+                email
+            }),
             headers: {
-                'api': 'pubkey-f83d83ec9eb8d6948bcfba407422ddec'
+                'x-api-key': 'EcNOWfwNaB2LZCS6TCX29aSHkgHdNYXXpsjihBlg',
+                'Content-Type': 'application/json'
             }
         })
-            .then(function (response) {
-                console.log(response)
-            })
-            .catch(console.error);
-        console.log(name)
-        console.log(phone)
-        console.log(email)
+            .then(() => this.setState({ success: true }))
+            .catch(console.error)
+            .finally(() => this.setState({ loading: false }));
     }
 
     render() {
         const { closeModal, title, fields } = this.props
-        const { formWasValidated, loading } = this.state
+        const { formWasValidated, loading, success } = this.state
 
         return (
             <React.Fragment>
@@ -103,38 +110,53 @@ class Modal extends Component {
 
                             <form className={`${formWasValidated ? ' was-validated' : ''}`} onSubmit={this.onSubmit} noValidate ref={this.formRef}>
                                 <div className='modal-body text-center'>
-                                    <span>Que ótimo, nos deixe algum contato que logo retornamos para você. 😃</span>
+                                    {
+                                        !success &&
+                                        <React.Fragment>
+                                            <span>Que ótimo, nos deixe algum contato que logo retornamos para você. 😃</span>
 
-                                    <div className='text-left'>
-                                        <Input
-                                            label='Seu nome:'
-                                            title='Informe seu nome por favor'
-                                            required
-                                            {...fields.name}
-                                        />
+                                            <div className='text-left'>
+                                                <Input
+                                                    label='Seu nome:'
+                                                    title='Informe seu nome por favor'
+                                                    required
+                                                    {...fields.name}
+                                                />
 
-                                        <Input
-                                            type='tel'
-                                            label='Seu telefone:'
-                                            title='Informe seu telefone ou e-mail por favor'
-                                            mask='(99) 99999-9999'
-                                            {...fields.phone}
-                                            onChange={this.checkEmailAndPhone}
-                                        />
+                                                <Input
+                                                    type='tel'
+                                                    label='Seu telefone:'
+                                                    title='Informe seu telefone ou e-mail por favor'
+                                                    mask='(99) 99999-9999'
+                                                    {...fields.phone}
+                                                    onChange={this.checkEmailAndPhone}
+                                                />
 
-                                        <Input
-                                            type='email'
-                                            label='Seu e-mail:'
-                                            title='Informe seu e-mail ou telefone por favor'
-                                            {...fields.email}
-                                            onChange={this.checkEmailAndPhone}
-                                        />
-                                    </div>
+                                                <Input
+                                                    type='email'
+                                                    label='Seu e-mail:'
+                                                    title='Informe seu e-mail ou telefone por favor'
+                                                    {...fields.email}
+                                                    onChange={this.checkEmailAndPhone}
+                                                />
+                                            </div>
+                                        </React.Fragment>
+                                    }
+
+                                    {
+                                        success &&
+                                        <div className='alert alert-success' role='alert'>
+                                            Tudo certo. Em breve entraremos em contato. 😃
+                                        </div>
+                                    }
                                 </div>
 
                                 <div className='modal-footer'>
                                     <button type='button' className='btn btn-secondary' data-dismiss='modal' onClick={closeModal}>Fechar</button>
-                                    <button type='submit' className='btn btn-success'>Enviar Contato</button>
+                                    {
+                                        !success &&
+                                        <button type='submit' className='btn btn-success'>Enviar Contato</button>
+                                    }
                                 </div>
                             </form>
                         </div>
